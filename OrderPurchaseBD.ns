@@ -82,12 +82,16 @@ class OrderPurchaseBD usingPlatform: platform = Value (
      )
   )
 
-  public class Store = ()(
+  public class Store = (
+    | private counter ::= 0.
+    |)(
 
     public productInStock: item database: database = (
       | stockPromise existPP |
 
       existPP:: actors createPromisePair.
+
+      counter:: counter + 1.
 
       stockPromise:: database <-: getStock.
       (stockPromise <-: contains: item) whenResolved:[:exist |
